@@ -1,12 +1,12 @@
 #!/usr/bin/env zsh
-# buffered file copy faster than cp.  preserves permissions, times etc (because tar).  does not resume after interruption.
+# buffered file copy faster than cp or rsync.  preserves permissions, times etc (because tar).  does not resume after interruption.
 
 # bushchannelstepper 2022
 
 
 if [ -d "$1" ] && [ -d "$2" ]
 then
-  ( cd "$1" && bsdtar cf - . ) | pv -trab -B 1500M | ( cd "$2" && bsdtar xpSf - )
+  ( cd "$1" && bsdtar cf - . ) | pv -trab -B 500M | ( cd "$2" && bsdtar xpSf - )
 else
   echo "tarcopy takes a source and destination path as args.  [$1] or [$2] is not a valid path"
   exit 1
